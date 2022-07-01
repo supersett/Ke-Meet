@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 import json
 from django.http import JsonResponse
 
-import room
 from .models import *
 from user import *
 from room import *
@@ -59,10 +58,39 @@ def join_room(request):
         })
 
 
-# 선택하기 버튼 누르면 apply_status Patch 되는 api
-def update_apply_status(request):
+# 선택하기 버튼 누르면 apply_status Update 되는 api
+def update_apply_status(request, id):
     if request.method == "PATCH":
-        pass
+
+        # 디코딩
+        body = json.loads(request.body.decode('utf-8'))
+        update_apply_status = get_object_or_404(Apply, pk=id)
+        update_apply_status.apply_status = 1
+
+        update_apply_status_json = {
+            # 지원번호
+            'id': update_apply_status.id,
+            'user_data': update_apply_status.user_key,
+            'room_data': update_apply_status.room_num,
+            'apply_status': update_apply_status.apply_status,
+
+        }
+
+        return JsonResponse({
+            'status': 200,  #성공
+            'success' : True,
+            'message': '지원 상태 변경 성공',
+            'data': update_apply_status_json
+
+        })
+    else:
+        return JsonResponse({
+            'status': 405,  #실패
+            'success' : False,
+            'message': '지원 상태 변경 실패',
+            'data': None
+        })
+        
 
 
 
@@ -86,6 +114,13 @@ def delete_room(request, room_num):
         return JsonResponse({
                 'status': 405,
                 'success': False,
-                'message': 'method error',
+                'message': '삭제 실패',
                 'data': None
             })
+
+
+# 로직
+# user의 status가 1로 바뀌면 알림./ 0이면 다른 알림 or 알림x ; 알림 안보내면 사용자입장에서 좋지않을 듯 -> 다음 모임에 참여할 수 있도록 유도하는 알림을 보내면 좋을 것 같다.
+
+# def inform_user(request):
+    

@@ -1,8 +1,7 @@
 from django.urls import path
 from .views import *
 
+# 전부 모달창의 띄우는 식이라 url이동은 필요없다.
 urlpatterns = [
-    # 참여하기 버튼을 땅 눌렀을 때 발동
-    path('', join_room, name='join_room'),
     
 ]
