@@ -1,9 +1,9 @@
 from django.db import models
-from django.forms import CharField,DateTimeField, DateField, NullBooleanField
+from django.forms import IntegerField,CharField,DateTimeField, DateField, NullBooleanField
 
 # Create your models here.
 class User(models.Model):
-    user_key=models.CharField(max_length=50,blank=None, null=True)
+    user_key=models.IntegerField(default=0,blank=None, null=True)
     user_nickname=models.CharField(max_length=50,blank=None, null=True)
     user_name=models.CharField(max_length=50,blank=None, null=True)
     user_mbti=models.CharField(max_length=50)

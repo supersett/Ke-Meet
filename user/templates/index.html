@@ -1,0 +1,38 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Login</h1>
+    {% load socialaccount %}
+<form method="POST" action="{% url 'user:login'%}">
+    {% csrf_token %}
+    <p>{{ error }}</p>
+    아이디:
+    <br>
+    <input name="username" type="text" value="" required>
+    <br>
+    비밀번호:
+    <br>
+    <input name="password" type="password" value="" required>
+    <br>
+    <br>
+    <input class="btn btn-dark" type="submit" value="로그인">
+</form>
+{% if user.is_authenticated %}
+<a href = "/accounts/logout">로그아웃</a>
+{{user.username}} 님이 로그인중
+{{user.id}}
+
+{% else %}
+<a href=" {% provider_login_url 'google' %}">구글 로그인</a><br>
+로그인 하셔야 합니다.
+{% endif %}
+</body>
+</html>

@@ -1,7 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
+from user.views import login,detailsignin
+
+app_name='user'
 
 urlpatterns = [
-    #path('create-category/', create_category, name='create-category'),
-    
+    path('login/',login,name='login'),
+    path('detailsignin/',detailsignin,name='detailsignin'),
 ]
+
